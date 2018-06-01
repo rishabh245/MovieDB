@@ -31,7 +31,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     }
 
     private void onNewData(List<Movie> newList) {
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffUtil(newList,movies));
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MovieDiffUtil(newList,movies));
         this.movies = newList;
         diffResult.dispatchUpdatesTo(this);
     }
@@ -85,12 +85,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         void onMoviesClicked(Movie movie);
     }
 
-    class MyDiffUtil extends DiffUtil.Callback{
+    class MovieDiffUtil extends DiffUtil.Callback{
 
         private List<Movie> newList;
         private List<Movie> oldList;
 
-        MyDiffUtil(List<Movie> newList , List<Movie> oldList){
+        MovieDiffUtil(List<Movie> newList , List<Movie> oldList){
             this.newList = newList;
             this.oldList = oldList;
         }

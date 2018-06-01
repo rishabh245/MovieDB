@@ -15,7 +15,12 @@ public class ReviewActivityModule {
         return new ReviewModelFactory(getReviewsUseCase);
     }
     @Provides
-    LinearLayoutManager proviedesLinearLayoutManager(ReviewsActivity reviewsActivity){
+    LinearLayoutManager providesLinearLayoutManager(ReviewsActivity reviewsActivity){
         return new LinearLayoutManager(reviewsActivity);
+    }
+
+    @Provides
+    ReviewAdapter providesReviewAdapter(ReviewsActivity reviewsActivity){
+        return new ReviewAdapter(reviewsActivity);
     }
 }

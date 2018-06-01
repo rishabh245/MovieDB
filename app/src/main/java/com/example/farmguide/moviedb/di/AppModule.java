@@ -40,13 +40,11 @@ public class AppModule {
     @Singleton
     @Provides
     ApiService provideApiService(Retrofit retrofit){
-        Log.d("tagg" , "apiService");
         return retrofit.create(ApiService.class);
     }
     @Provides
     @Singleton
     Retrofit provideRetrofit(){
-        Log.d("tagg" , "Retrofit");
         return  new Retrofit.Builder().
                 baseUrl("https://api.themoviedb.org/").
                 addCallAdapterFactory(RxJava2CallAdapterFactory.create()).

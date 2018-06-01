@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.farmguide.moviedb.R;
@@ -21,14 +24,22 @@ import dagger.android.AndroidInjection;
 
 public class ReviewsActivity extends AppCompatActivity {
     @Inject ReviewModelFactory reviewModelFactory;
-    ReviewViewModel reviewViewModel;
-    int movieId;
+    private ReviewViewModel reviewViewModel;
+    private int movieId;
+    private RecyclerView recyclerView;
+    @Inject ReviewAdapter reviewAdapter;
+    @Inject LinearLayoutManager linearLayoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reviews);
         AndroidInjection.inject(this);
+        recyclerView = findViewById(R.id.recyler_view_reviews);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this , DividerItemDecoration.VERTICAL));
+        recyclerView.setAdapter(reviewAdapter);
         Intent intent = getIntent();
         movieId = intent.getIntExtra("MOVIEID" , 0);
         reviewViewModel = ViewModelProviders.of(this , reviewModelFactory).get(ReviewViewModel.class);
@@ -36,8 +47,7 @@ public class ReviewsActivity extends AppCompatActivity {
         reviewViewModel.getReviewObservable().observe(this, new Observer<List<Review>>() {
             @Override
             public void onChanged(@Nullable List<Review> reviews) {
-                Log.d("tagg" , "hello");
-                Log.d("tagg" , reviews.size()+"");
+                reviewAdapter.setReviewList(reviews);
             }
         });
         reviewViewModel.loadData(movieId);
