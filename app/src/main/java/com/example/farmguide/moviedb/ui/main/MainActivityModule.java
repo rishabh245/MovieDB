@@ -22,4 +22,9 @@ public class MainActivityModule {
     LinearLayoutManager providesLinearLayoutManager(MainActivity mainActivity){
         return new LinearLayoutManager(mainActivity);
     }
+
+    @Provides
+    MoviesAdapter providesMoviesAdapter(MainActivity mainActivity){
+        return new MoviesAdapter(mainActivity,mainActivity);
+    }
 }

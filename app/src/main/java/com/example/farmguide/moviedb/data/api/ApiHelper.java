@@ -1,4 +1,4 @@
-package com.example.farmguide.moviedb.data.model.api;
+package com.example.farmguide.moviedb.data.api;
 
 import java.util.List;
 
@@ -21,5 +21,9 @@ public class ApiHelper {
 
     public Single<MoviesResponse> getMovies(){
         return apiService.getMovies();
+    }
+
+    public Single<ReviewResponse> getReviews(int movieId){
+        return apiService.getReviews(movieId);
     }
 }

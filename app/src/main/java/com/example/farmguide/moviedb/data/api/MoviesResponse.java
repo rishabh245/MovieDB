@@ -1,4 +1,4 @@
-package com.example.farmguide.moviedb.data.model.api;
+package com.example.farmguide.moviedb.data.api;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

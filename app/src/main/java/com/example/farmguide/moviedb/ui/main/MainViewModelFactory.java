@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 
 import com.example.farmguide.moviedb.usecases.GetMoviesUseCase;
 
-import javax.inject.Singleton;
 
 
 public class MainViewModelFactory implements ViewModelProvider.Factory {

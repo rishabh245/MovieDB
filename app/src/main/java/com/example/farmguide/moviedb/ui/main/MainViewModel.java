@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.example.farmguide.moviedb.usecases.GetMoviesUseCase;
-import com.example.farmguide.moviedb.data.model.db.Movie;
+import com.example.farmguide.moviedb.data.db.Movie;
 
 import java.util.List;
 

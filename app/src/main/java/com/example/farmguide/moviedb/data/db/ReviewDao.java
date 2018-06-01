@@ -1,4 +1,4 @@
-package com.example.farmguide.moviedb.data.model.db;
+package com.example.farmguide.moviedb.data.db;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
@@ -6,19 +6,15 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import java.util.List;
-import java.util.Observable;
 
-import io.reactivex.Completable;
 import io.reactivex.Flowable;
 
 @Dao
-public interface MovieDao {
-    @Query("SELECT * FROM movies")
-    Flowable<List<Movie>> getMovies();
+public interface ReviewDao {
 
-    @Insert
-    void insert(Movie movie);
+   @Query("SELECT * FROM reviews where movieId = :movieId")
+     Flowable<List<Review>> getReviews(int movieId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<Movie> movies);
+     void insertAll(List<Review> reviews);
 }

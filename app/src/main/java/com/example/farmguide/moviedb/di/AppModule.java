@@ -1,23 +1,26 @@
 package com.example.farmguide.moviedb.di;
 
 import android.app.Application;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
+
 import android.util.Log;
 
-import com.example.farmguide.moviedb.data.model.db.AppDatabase;
-import com.example.farmguide.moviedb.data.model.api.ApiHelper;
-import com.example.farmguide.moviedb.data.model.api.ApiService;
-import com.example.farmguide.moviedb.data.model.db.Migration_1_2;
-import com.example.farmguide.moviedb.usecases.GetMoviesUseCase;
+import com.example.farmguide.moviedb.data.api.ApiHelper;
+import com.example.farmguide.moviedb.data.db.AppDatabase;
+import com.example.farmguide.moviedb.data.api.ApiService;
+import com.example.farmguide.moviedb.data.db.MovieDao;
+import com.example.farmguide.moviedb.data.db.ReviewDao;
+import com.example.farmguide.moviedb.repo.MoviesRepository;
+import com.example.farmguide.moviedb.repo.MoviesRepositoryImpl;
+import com.example.farmguide.moviedb.repo.ReviewRepository;
+import com.example.farmguide.moviedb.repo.ReviewRepositoryImpl;
+import com.example.farmguide.moviedb.usecases.GetReviewsUseCase;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.reactivex.disposables.CompositeDisposable;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -50,24 +53,38 @@ public class AppModule {
                 addConverterFactory(GsonConverterFactory.create()).build();
     }
 
+
+
+    @Singleton
     @Provides
-    CompositeDisposable provideCompositeDisposable(){
-        return new CompositeDisposable();
+    AppDatabase provideAppDatabase(Context context){
+        return  AppDatabase.getDatabase(context);
     }
 
     @Singleton
     @Provides
-    AppDatabase provideAppDatabase(Context context , Migration[] migrations){
-        return Room.databaseBuilder(context, AppDatabase.class, "database-name")
-                .addMigrations(migrations).build();
+    MovieDao provideMovieDao (AppDatabase appDatabase){
+        return appDatabase.movieDao();
     }
 
     @Singleton
     @Provides
-    Migration[] providesMigrations(){
-        Migration[] migrations = {new Migration_1_2()};
-        return  migrations;
+    ReviewDao provideReviewDao(AppDatabase appDatabase){
+        return appDatabase.reviewDao();
     }
+
+    @Singleton
+    @Provides
+    MoviesRepository moviesRepository(MovieDao movieDao){
+        return new MoviesRepositoryImpl(movieDao);
+    }
+
+    @Singleton
+    @Provides
+    ReviewRepository providesReviewRepository(ReviewDao reviewDao){
+        return new ReviewRepositoryImpl(reviewDao);
+    }
+
 
 
 

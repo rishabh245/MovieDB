@@ -2,11 +2,12 @@ package com.example.farmguide.moviedb.usecases;
 
 import android.util.Log;
 
-import com.example.farmguide.moviedb.data.model.api.ApiHelper;
-import com.example.farmguide.moviedb.data.model.api.MoviesResponse;
-import com.example.farmguide.moviedb.data.model.api.Result;
-import com.example.farmguide.moviedb.data.model.db.AppDatabase;
-import com.example.farmguide.moviedb.data.model.db.Movie;
+import com.example.farmguide.moviedb.data.api.ApiHelper;
+import com.example.farmguide.moviedb.data.api.MoviesResponse;
+import com.example.farmguide.moviedb.data.api.Result;
+import com.example.farmguide.moviedb.data.db.AppDatabase;
+import com.example.farmguide.moviedb.data.db.Movie;
+import com.example.farmguide.moviedb.repo.MoviesRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,17 +28,17 @@ public class GetMoviesUseCase {
     private CompositeDisposable disposable  = new CompositeDisposable();
 
     private ApiHelper apiHelper;
-    private AppDatabase appDatabase;
+    private MoviesRepository moviesRepository;
 
     @Inject
-    public GetMoviesUseCase(ApiHelper apiHelper,AppDatabase appDatabase){
+    public GetMoviesUseCase(ApiHelper apiHelper, MoviesRepository moviesRepository){
         this.apiHelper = apiHelper;
-        this.appDatabase = appDatabase;
+        this.moviesRepository = moviesRepository;
     }
 
     public Flowable<List<Movie>> getMovies(){
         fetchFromNetwork();
-        return appDatabase.movieDao().getMovies().subscribeOn(Schedulers.io());
+        return moviesRepository.getMovies().subscribeOn(Schedulers.io());
     }
 
     private void fetchFromNetwork() {
@@ -50,7 +51,7 @@ public class GetMoviesUseCase {
                 }).subscribe(new Consumer<List<Movie>>() {
             @Override
             public void accept(List<Movie> movies) throws Exception {
-                appDatabase.movieDao().insertAll(movies);
+                moviesRepository.insertAll(movies);
             }
         }));
     }

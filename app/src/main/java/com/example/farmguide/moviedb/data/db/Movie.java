@@ -1,4 +1,4 @@
-package com.example.farmguide.moviedb.data.model.db;
+package com.example.farmguide.moviedb.data.db;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;

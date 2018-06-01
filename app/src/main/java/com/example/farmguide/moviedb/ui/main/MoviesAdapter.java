@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.farmguide.moviedb.R;
-import com.example.farmguide.moviedb.data.model.db.Movie;
+import com.example.farmguide.moviedb.data.db.Movie;
 
 import java.util.List;
 
@@ -19,9 +19,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     private Context context;
     private List<Movie> movies;
+    private MovieClickListener movieClickListener;
 
-    public MoviesAdapter(Context context){
+    public MoviesAdapter(Context context , MovieClickListener movieClickListener){
         this.context = context;
+        this.movieClickListener = movieClickListener;
     }
 
     public void setMoviesList(List<Movie> movies){
@@ -38,7 +40,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     @Override
     public MoviesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.movie_layout , parent,false);
-        return new MoviesViewHolder(view);
+        return new MoviesViewHolder(view,movieClickListener);
     }
 
     @Override
@@ -51,21 +53,36 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         return movies==null?0:movies.size();
     }
 
-    public class MoviesViewHolder extends RecyclerView.ViewHolder{
+    public class MoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView titleTextView,releaseDateTextView;
+        MovieClickListener movieClickListener;
+        private Movie movie;
 
-        public MoviesViewHolder(View itemView) {
+        public MoviesViewHolder(View itemView,MovieClickListener movieClickListener) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.text_view_title);
             releaseDateTextView = itemView.findViewById(R.id.text_view_release_date);
+            this.movieClickListener = movieClickListener;
+            itemView.setOnClickListener(this);
         }
 
 
         private void bind(Movie movie) {
+            this.movie = movie;
             titleTextView.setText(movie.getTitle());
             releaseDateTextView.setText(movie.getReleaseDate());
         }
+
+        @Override
+        public void onClick(View v) {
+            movieClickListener.onMoviesClicked(movie);
+        }
+    }
+
+    public interface MovieClickListener{
+
+        void onMoviesClicked(Movie movie);
     }
 
     class MyDiffUtil extends DiffUtil.Callback{
