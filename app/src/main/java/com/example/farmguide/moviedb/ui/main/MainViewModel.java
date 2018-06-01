@@ -4,14 +4,12 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.example.farmguide.moviedb.usecases.GetMoviesUseCase;
 import com.example.farmguide.moviedb.data.db.Movie;
+import com.example.farmguide.moviedb.usecases.GetMoviesUseCase;
 
 import java.util.List;
 
-import javax.inject.Inject;
 import io.reactivex.disposables.CompositeDisposable;
-
 import io.reactivex.functions.Consumer;
 
 public class MainViewModel extends ViewModel {
@@ -23,6 +21,7 @@ public class MainViewModel extends ViewModel {
 
     public MainViewModel(GetMoviesUseCase getMoviesUseCase){
         this.getMoviesUseCase = getMoviesUseCase;
+        loadMovies();
     }
 
     public LiveData<List<Movie>> getMoviesObservable(){

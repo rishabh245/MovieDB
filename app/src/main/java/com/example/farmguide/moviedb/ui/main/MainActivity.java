@@ -1,34 +1,22 @@
 package com.example.farmguide.moviedb.ui.main;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.example.farmguide.moviedb.R;
-import com.example.farmguide.moviedb.data.api.MoviesResponse;
 import com.example.farmguide.moviedb.data.db.Movie;
-import com.example.farmguide.moviedb.ui.review.ReviewActivityModule;
 import com.example.farmguide.moviedb.ui.review.ReviewsActivity;
-import com.example.farmguide.moviedb.usecases.GetMoviesUseCase;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity implements MoviesAdapter.MovieClickListener {
 
@@ -62,14 +50,10 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
             }
         });
 
-        mainViewModel.loadMovies();
-
     }
 
     @Override
     public void onMoviesClicked(Movie movie) {
-         Intent intent = new Intent(this , ReviewsActivity.class);
-         intent.putExtra("MOVIEID" , movie.getId());
-         startActivity(intent);
+        ReviewsActivity.start(this, movie.getId());
     }
 }

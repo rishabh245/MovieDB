@@ -5,14 +5,13 @@ import com.example.farmguide.moviedb.data.db.ReviewDao;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.reactivex.Flowable;
+
 
 public class ReviewRepositoryImpl implements ReviewRepository {
     private ReviewDao reviewDao;
 
-    @Inject
+
     public ReviewRepositoryImpl(ReviewDao reviewDao) {
         this.reviewDao = reviewDao;
     }

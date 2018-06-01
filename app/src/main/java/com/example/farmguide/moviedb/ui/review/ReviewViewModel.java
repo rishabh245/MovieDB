@@ -4,14 +4,10 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.example.farmguide.moviedb.data.api.ApiHelper;
 import com.example.farmguide.moviedb.data.db.Review;
-import com.example.farmguide.moviedb.repo.ReviewRepository;
 import com.example.farmguide.moviedb.usecases.GetReviewsUseCase;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -22,8 +18,9 @@ public class ReviewViewModel extends ViewModel {
     private GetReviewsUseCase getReviewsUseCase;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public ReviewViewModel(GetReviewsUseCase getReviewsUseCase) {
+    public ReviewViewModel(GetReviewsUseCase getReviewsUseCase, int movieId) {
         this.getReviewsUseCase = getReviewsUseCase;
+        loadData(movieId);
     }
 
     public LiveData<List<Review>> getReviewObservable(){

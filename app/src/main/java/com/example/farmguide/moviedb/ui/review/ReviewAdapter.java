@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,8 @@ import com.example.farmguide.moviedb.R;
 import com.example.farmguide.moviedb.data.db.Review;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder> {
 
@@ -30,14 +31,14 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         diffResult.dispatchUpdatesTo(this);
     }
 
-    public ReviewAdapter(Context context){
-       this.context = context;
+    @Inject
+    public ReviewAdapter() {
     }
 
     @NonNull
     @Override
     public ReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.review_layout,null , false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.review_layout, null, false);
         return new ReviewViewHolder(view);
     }
 
